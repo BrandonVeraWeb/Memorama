@@ -54,7 +54,7 @@ div.container-cards {
   flex-wrap: wrap;
 }
 
-div.tarjeta {
+div.card {
   background-image: url(../img/cover.jpg);
   width: 12rem;
   height: 14rem;
@@ -70,13 +70,13 @@ div.tarjeta {
   position: relative;
 }
 
-img.tarjeta-img {
+img.card-img {
   display: none;
 }
 
 /* Adicionales */
 
-.acertada {
+.correct {
   display: block;
 }
 
