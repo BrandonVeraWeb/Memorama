@@ -1,1 +1,2 @@
 # Memorama
+Practice project
