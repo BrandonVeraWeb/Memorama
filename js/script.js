@@ -4,15 +4,17 @@ class Memorama {
     this.cardsNumber = 0;
     this.cardsVerify = [];
     this.errors = 0;
-    this.difficulty = "";
+    this.levelDifficulty = "";
     this.imageCorrects = [];
     this.cardsAdd = [];
     this.attemptsNumbers = 0;
+
     this.$containerGeneral = document.querySelector(".container-general");
     this.$containerCards = document.querySelector(".container-cards");
     this.$blockScreen = document.querySelector(".block-screen");
     this.$message = document.querySelector("h2.message");
     this.$errorContainer = document.createElement("div");
+    this.$levelDifficulty = document.createElement("div");
     //Call events
     this.evenListeners();
   }
@@ -20,6 +22,13 @@ class Memorama {
     window.addEventListener("DOMContentLoaded", () => {
       this.selectDifficulty();
       this.loadingScreen();
+      window.addEventListener(
+        "contextmenu",
+        (e) => {
+          e.preventDefault();
+        },
+        false
+      );
     });
   }
 
@@ -34,14 +43,19 @@ class Memorama {
       if (message.toLowerCase() === "easy") {
         this.attemptsNumbers = 7;
         this.levelDifficulty = "Easy";
-      } else if ((message.toLocaleLowerCase = "intermediate")) {
+      } else if (message.toLowerCase() === "intermediate") {
         this.attemptsNumbers = 5;
         this.levelDifficulty = "Intermediate";
-      } else if ((message.toLocaleLowerCase = "hard")) {
+      } else if (message.toLowerCase() === "hard") {
         this.attemptsNumbers = 3;
         this.levelDifficulty = "Hard";
+      } else {
+        this.attemptsNumbers = 5;
+        this.levelDifficulty = "Intermediate";
       }
     }
+    this.containerError();
+    this.messageTry();
   }
 
   async loadingScreen() {
@@ -63,13 +77,17 @@ class Memorama {
     });
     this.$containerCards.innerHTML = html;
     this.startGame();
-    this.containerError();
   }
   startGame() {
     const cards = document.querySelectorAll(".card");
     cards.forEach((card) => {
       card.addEventListener("click", (e) => {
-        this.clickCard(e);
+        if (
+          !e.target.classList.contains("correct") &&
+          !e.target.classList.contains("card-img")
+        ) {
+          this.clickCard(e);
+        }
       });
     });
   }
@@ -130,7 +148,7 @@ class Memorama {
     }
   }
   lostGame() {
-    if (this.errors === 5) {
+    if (this.errors === this.attemptsNumbers) {
       setTimeout(() => {
         this.$blockScreen.style.display = "block";
       }, 1000);
@@ -146,6 +164,12 @@ class Memorama {
     this.$errorContainer.classList.add("error");
     this.incrementError();
     this.$containerGeneral.appendChild(this.$errorContainer);
+  }
+
+  messageTry() {
+    this.$levelDifficulty.classList.add("level-difficulty");
+    this.$levelDifficulty.innerHTML = `Level of difficulty: ${this.levelDifficulty}`;
+    this.$containerGeneral.appendChild(this.$levelDifficulty);
   }
 }
 new Memorama();
