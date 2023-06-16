@@ -105,9 +105,9 @@ div.error {
   font-size: 3rem;
 }
 
-div.nivel-dificultad {
+div.level-difficulty {
   position: absolute;
   bottom: 5rem;
   font-size: 3rem;
-  right: 21rem;
+  right: 50rem;
 }
